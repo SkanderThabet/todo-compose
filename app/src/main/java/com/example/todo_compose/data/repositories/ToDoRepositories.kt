@@ -2,9 +2,11 @@ package com.example.todo_compose.data.repositories
 
 import com.example.todo_compose.data.ToDoDao
 import com.example.todo_compose.data.models.ToDoTask
+import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
+@ViewModelScoped
 class ToDoRepositories @Inject constructor(private val toDoDao: ToDoDao) {
 
     val getAllTasks: Flow<List<ToDoTask>> = toDoDao.getAllTasks()
@@ -34,6 +36,6 @@ class ToDoRepositories @Inject constructor(private val toDoDao: ToDoDao) {
     fun searchDatabase(searchQueries: String): Flow<List<ToDoTask>> {
         return toDoDao.searchDatabase(searchQueries)
     }
-    
+
 
 }
