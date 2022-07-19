@@ -9,7 +9,7 @@ import com.example.todo_compose.util.Constants.LIST_ARGUMENTS_KEY
 import com.example.todo_compose.util.Constants.LIST_SCREEN
 
 fun NavGraphBuilder.listComposable(
-    navigateToTaskScreen: (Int) -> Unit
+    navigateToTaskScreen: (taskId: Int) -> Unit
 ) {
     composable(
         route = LIST_SCREEN,
