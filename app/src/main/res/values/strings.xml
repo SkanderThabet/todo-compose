@@ -5,4 +5,6 @@
     <string name="sort_tasks">Sort Tasks</string>
     <string name="delete_all_action">Delete All</string>
     <string name="delete_action">Delete Action</string>
+    <string name="search_bar_placeholder">Search</string>
+    <string name="search_icon_topAppBar">Search Icon</string>
 </resources>
