@@ -110,7 +110,7 @@ fun TaskItemPreview() {
             0,
             "Test",
             "Some random text",
-            Priority.HIGHT
+            Priority.HIGH
         ),
         navigateToTaskScreen = {}
     )

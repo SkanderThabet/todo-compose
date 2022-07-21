@@ -8,8 +8,8 @@ import com.example.todo_compose.ui.theme.NonePriorityColor
 
 
 enum class Priority(val color: Color) {
-    HIGHT(HighPriorityColor),
-    MEDUIM(MediumPriorityColor),
+    HIGH(HighPriorityColor),
+    MEDIUM(MediumPriorityColor),
     LOW(LowPriorityColor),
     NONE(NonePriorityColor)
 }

@@ -140,18 +140,18 @@ fun SortAction(
             DropdownMenuItem(
                 onClick = {
                     expanded = false
-                    onSortClicked(Priority.MEDUIM)
+                    onSortClicked(Priority.MEDIUM)
                 })
             {
-                PriorityItem(priority = Priority.MEDUIM)
+                PriorityItem(priority = Priority.MEDIUM)
             }
             DropdownMenuItem(
                 onClick = {
                     expanded = false
-                    onSortClicked(Priority.HIGHT)
+                    onSortClicked(Priority.HIGH)
                 })
             {
-                PriorityItem(priority = Priority.HIGHT)
+                PriorityItem(priority = Priority.HIGH)
             }
             DropdownMenuItem(
                 onClick = {
