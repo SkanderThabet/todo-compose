@@ -24,6 +24,21 @@ fun ListContent(
     tasks: List<ToDoTask>,
     navigateToTaskScreen: (taskId: Int) -> Unit
 ) {
+    if (tasks.isEmpty()) {
+        EmptyContent()
+    } else {
+        DisplayContent(
+            tasks = tasks,
+            navigateToTaskScreen = navigateToTaskScreen
+        )
+    }
+}
+
+@Composable
+fun DisplayContent(
+    tasks: List<ToDoTask>,
+    navigateToTaskScreen: (taskId: Int) -> Unit
+) {
     LazyColumn {
         items(
             items = tasks,
@@ -38,10 +53,12 @@ fun ListContent(
 
         }
     }
+
 }
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
+
 fun TaskItem(
     toDoTask: ToDoTask,
     navigateToTaskScreen: (taskId: Int) -> Unit
@@ -79,8 +96,7 @@ fun TaskItem(
                 ) {
                     Canvas(
                         modifier = Modifier
-                            .width(PRIORITY_INDICATOR_SIZE)
-                            .height(PRIORITY_INDICATOR_SIZE)
+                            .size(PRIORITY_INDICATOR_SIZE)
 
                     ) {
                         drawCircle(

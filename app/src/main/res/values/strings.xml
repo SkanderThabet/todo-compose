@@ -9,4 +9,6 @@
     <string name="search_icon_topAppBar">Search Icon</string>
     <string name="list_screen_title">Tasks</string>
     <string name="search_close_icon">Search Close Icon</string>
+    <string name="sad_face_icon">Sad Face Icon</string>
+    <string name="tasks_empty_content">No Tasks Found</string>
 </resources>
