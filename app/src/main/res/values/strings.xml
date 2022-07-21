@@ -7,4 +7,6 @@
     <string name="delete_action">Delete Action</string>
     <string name="search_bar_placeholder">Search</string>
     <string name="search_icon_topAppBar">Search Icon</string>
+    <string name="list_screen_title">Tasks</string>
+    <string name="search_close_icon">Search Close Icon</string>
 </resources>
