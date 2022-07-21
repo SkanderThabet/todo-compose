@@ -1,25 +1,37 @@
 package com.example.todo_compose.ui.screens.list
 
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import com.example.todo_compose.R
 import com.example.todo_compose.ui.theme.fabBackgroundColor
+import com.example.todo_compose.ui.viewmodels.SharedViewModel
+import com.example.todo_compose.util.SearchAppBarState
 
+@ExperimentalAnimationApi
+@ExperimentalMaterialApi
 @Composable
 fun ListScreen(
-    navigateToTaskScreen: (taskId: Int) -> Unit
+    navigateToTaskScreen: (taskId: Int) -> Unit,
+    sharedViewModel: SharedViewModel
 ) {
+//    val searchAppBarState: SearchAppBarState
+//            by sharedViewModel.searchAppBarState
+//    val searchTextState: String by sharedViewModel.searchTextState
+    val searchAppBarState: SearchAppBarState = sharedViewModel.searchAppBarState
+    val searchTextState: String = sharedViewModel.searchTextState
+
     Scaffold(
         topBar = {
-            ListAppBar()
+            ListAppBar(
+                sharedViewModel = sharedViewModel,
+                searchAppBarState = searchAppBarState,
+                searchTextState = searchTextState
+            )
         },
         content = {},
         floatingActionButton = {
@@ -45,11 +57,4 @@ fun ListFab(
             tint = Color.White
         )
     }
-}
-
-
-@Composable
-@Preview
-private fun ListScreenPreview() {
-    ListScreen(navigateToTaskScreen = {})
 }
