@@ -11,4 +11,7 @@
     <string name="search_close_icon">Search Close Icon</string>
     <string name="sad_face_icon">Sad Face Icon</string>
     <string name="tasks_empty_content">No Tasks Found</string>
+    <string name="task_back_button_icon">Back Button Icon</string>
+    <string name="add_task">Add Task</string>
+    <string name="add_task_action">Add Task</string>
 </resources>
