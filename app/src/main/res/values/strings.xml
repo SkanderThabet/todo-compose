@@ -14,4 +14,7 @@
     <string name="task_back_button_icon">Back Button Icon</string>
     <string name="add_task">Add Task</string>
     <string name="add_task_action">Add Task</string>
+    <string name="close_action_icon">Close Icon</string>
+    <string name="task_delete_action_icon">Delete Icon</string>
+    <string name="task_update_button_icon">Update Icon</string>
 </resources>
