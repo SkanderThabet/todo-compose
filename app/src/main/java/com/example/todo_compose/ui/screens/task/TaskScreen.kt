@@ -2,6 +2,7 @@ package com.example.todo_compose.ui.screens.task
 
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import com.example.todo_compose.data.models.Priority
 import com.example.todo_compose.data.models.ToDoTask
 import com.example.todo_compose.util.Action
 
@@ -17,6 +18,15 @@ fun TaskScreen(
                 selectedTask = selectedTask
             )
         },
-        content = {}
+        content = {
+            TaskContent(
+                title = "",
+                onTitleChange = {},
+                description = "",
+                onDescriptionChange = {},
+                priority = Priority.HIGH,
+                onPrioritySelected = {}
+            )
+        }
     )
 }
