@@ -18,4 +18,6 @@
     <string name="task_delete_action_icon">Delete Icon</string>
     <string name="task_update_button_icon">Update Icon</string>
     <string name="drop_down_arrow">Drop Down Arrow Icon</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
 </resources>
