@@ -103,8 +103,9 @@ fun TaskItem(
 
                     ) {
                         drawCircle(
-                            color = toDoTask.priority.color
-                        )
+                            color = toDoTask.priority.color,
+
+                            )
                     }
                 }
             }

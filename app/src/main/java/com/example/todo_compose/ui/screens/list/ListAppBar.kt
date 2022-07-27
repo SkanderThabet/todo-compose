@@ -157,7 +157,11 @@ fun SortAction(
                 onClick = {
                     expanded = false
                     onSortClicked(Priority.NONE)
-                })
+                },
+
+
+                )
+
             {
                 PriorityItem(priority = Priority.NONE)
             }
