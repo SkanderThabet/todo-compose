@@ -26,9 +26,11 @@ fun ListScreen(
         sharedViewModel.getAllTasks()
     }
     val allTasks by sharedViewModel.allTasks.collectAsState()
-
+    val action by sharedViewModel.action
     val searchAppBarState: SearchAppBarState = sharedViewModel.searchAppBarState
     val searchTextState: String = sharedViewModel.searchTextState
+    
+    sharedViewModel.handleDatabaseActions(action = action)
 
     Scaffold(
         topBar = {

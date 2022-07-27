@@ -9,10 +9,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.todo_compose.data.models.Priority
 import com.example.todo_compose.data.models.ToDoTask
 import com.example.todo_compose.data.repositories.ToDoRepository
+import com.example.todo_compose.util.Action
 import com.example.todo_compose.util.Constants.MAX_TITLE_LENGTH
 import com.example.todo_compose.util.RequestState
 import com.example.todo_compose.util.SearchAppBarState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -27,6 +29,8 @@ class SharedViewModel @Inject constructor(
         private set
     var searchTextState by mutableStateOf("")
         private set
+
+    val action: MutableState<Action> = mutableStateOf(Action.NO_ACTION)
 
     val id: MutableState<Int> = mutableStateOf(0)
     val title: MutableState<String> = mutableStateOf("")
@@ -61,6 +65,43 @@ class SharedViewModel @Inject constructor(
                 _selectedTask.value = task
             }
         }
+    }
+
+    private fun addTask() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val toDoTask = ToDoTask(
+                title = title.value,
+                description = description.value,
+                priority = priority.value
+            )
+            repository.addTask(toDoTask)
+
+        }
+    }
+
+    fun handleDatabaseActions(action: Action) {
+        when (action) {
+            Action.ADD -> {
+                addTask()
+            }
+            Action.UPDATE -> {
+
+            }
+            Action.DELETE -> {
+
+            }
+            Action.DELETE_ALL -> {
+
+            }
+            Action.UNDO -> {
+
+            }
+            else -> {
+
+            }
+
+        }
+        this.action.value = Action.NO_ACTION
     }
 
     fun updateAppBarState(newState: SearchAppBarState) {
