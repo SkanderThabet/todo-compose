@@ -27,7 +27,7 @@ class SharedViewModel @Inject constructor(
         private set
     var searchTextState by mutableStateOf("")
         private set
-    
+
     val id: MutableState<Int> = mutableStateOf(0)
     val title: MutableState<String> = mutableStateOf("")
     val description: MutableState<String> = mutableStateOf("")
@@ -89,6 +89,10 @@ class SharedViewModel @Inject constructor(
         if (newTitle.length < MAX_TITLE_LENGTH) {
             title.value = newTitle
         }
+    }
+
+    fun validateFields(): Boolean {
+        return title.value.isNotEmpty() && description.value.isNotEmpty()
     }
 
 
