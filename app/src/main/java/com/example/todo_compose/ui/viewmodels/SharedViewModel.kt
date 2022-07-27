@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.todo_compose.data.models.Priority
 import com.example.todo_compose.data.models.ToDoTask
 import com.example.todo_compose.data.repositories.ToDoRepository
+import com.example.todo_compose.util.Constants.MAX_TITLE_LENGTH
 import com.example.todo_compose.util.RequestState
 import com.example.todo_compose.util.SearchAppBarState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,6 +27,7 @@ class SharedViewModel @Inject constructor(
         private set
     var searchTextState by mutableStateOf("")
         private set
+    
     val id: MutableState<Int> = mutableStateOf(0)
     val title: MutableState<String> = mutableStateOf("")
     val description: MutableState<String> = mutableStateOf("")
@@ -80,6 +82,12 @@ class SharedViewModel @Inject constructor(
             title.value = ""
             description.value = ""
             priority.value = Priority.LOW
+        }
+    }
+
+    fun updateTitle(newTitle: String) {
+        if (newTitle.length < MAX_TITLE_LENGTH) {
+            title.value = newTitle
         }
     }
 
