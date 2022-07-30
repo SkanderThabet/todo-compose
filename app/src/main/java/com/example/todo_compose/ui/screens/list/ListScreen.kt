@@ -4,16 +4,15 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import com.example.todo_compose.R
 import com.example.todo_compose.ui.theme.fabBackgroundColor
 import com.example.todo_compose.ui.viewmodels.SharedViewModel
+import com.example.todo_compose.util.Action
 import com.example.todo_compose.util.SearchAppBarState
+import kotlinx.coroutines.launch
 
 @ExperimentalAnimationApi
 @ExperimentalMaterialApi
@@ -29,10 +28,16 @@ fun ListScreen(
     val action by sharedViewModel.action
     val searchAppBarState: SearchAppBarState = sharedViewModel.searchAppBarState
     val searchTextState: String = sharedViewModel.searchTextState
-    
-    sharedViewModel.handleDatabaseActions(action = action)
+    val scaffoldState = rememberScaffoldState()
 
+    DisplaySnackBack(
+        scaffoldState = scaffoldState,
+        handleDatabaseActions = { sharedViewModel.handleDatabaseActions(action = action) },
+        taskTitle = sharedViewModel.title.value,
+        action = action
+    )
     Scaffold(
+        scaffoldState = scaffoldState,
         topBar = {
             ListAppBar(
                 sharedViewModel = sharedViewModel,
@@ -69,4 +74,27 @@ fun ListFab(
             tint = Color.White
         )
     }
+}
+
+@Composable
+fun DisplaySnackBack(
+    scaffoldState: ScaffoldState,
+    handleDatabaseActions: () -> Unit,
+    taskTitle: String,
+    action: Action
+) {
+    handleDatabaseActions()
+    val scope = rememberCoroutineScope()
+    LaunchedEffect(key1 = action) {
+        if (action != Action.NO_ACTION) {
+            scope.launch {
+                val snackbarResult = scaffoldState.snackbarHostState.showSnackbar(
+                    message = "${action.name} : $taskTitle",
+                    actionLabel = "OK"
+                )
+
+            }
+        }
+    }
+
 }
