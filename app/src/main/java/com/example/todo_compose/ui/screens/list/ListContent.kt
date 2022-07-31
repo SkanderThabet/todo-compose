@@ -1,5 +1,6 @@
 package com.example.todo_compose.ui.screens.list
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -19,21 +20,47 @@ import com.example.todo_compose.data.models.Priority
 import com.example.todo_compose.data.models.ToDoTask
 import com.example.todo_compose.ui.theme.*
 import com.example.todo_compose.util.RequestState
+import com.example.todo_compose.util.SearchAppBarState
 
+@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterialApi::class)
 @Composable
 fun ListContent(
-    tasks: RequestState<List<ToDoTask>>,
+    allTasks: RequestState<List<ToDoTask>>,
+    searchedTasks: RequestState<List<ToDoTask>>,
+    searchAppBarState: SearchAppBarState,
     navigateToTaskScreen: (taskId: Int) -> Unit
 ) {
-    if (tasks is RequestState.Success) {
-        if (tasks.data.isEmpty()) {
-            EmptyContent()
-        } else {
-            DisplayContent(
-                tasks = tasks.data,
+    if (searchAppBarState == SearchAppBarState.TRIGGERED) {
+        if (searchedTasks is RequestState.Success) {
+            HandleListContent(
+                tasks = searchedTasks.data,
                 navigateToTaskScreen = navigateToTaskScreen
             )
         }
+    } else {
+        if (allTasks is RequestState.Success) {
+            HandleListContent(
+                tasks = allTasks.data,
+                navigateToTaskScreen = navigateToTaskScreen
+            )
+        }
+    }
+}
+
+@ExperimentalAnimationApi
+@ExperimentalMaterialApi
+@Composable
+fun HandleListContent(
+    tasks: List<ToDoTask>,
+    navigateToTaskScreen: (taskId: Int) -> Unit
+) {
+    if (tasks.isEmpty()) {
+        EmptyContent()
+    } else {
+        DisplayContent(
+            tasks = tasks,
+            navigateToTaskScreen = navigateToTaskScreen
+        )
     }
 }
 
