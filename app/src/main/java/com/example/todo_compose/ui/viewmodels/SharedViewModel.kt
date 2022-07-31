@@ -104,7 +104,7 @@ class SharedViewModel @Inject constructor(
 
     }
 
-    
+
     fun handleDatabaseActions(action: Action) {
         when (action) {
             Action.ADD -> {
@@ -120,7 +120,7 @@ class SharedViewModel @Inject constructor(
 
             }
             Action.UNDO -> {
-
+                addTask()
             }
             else -> {
 
