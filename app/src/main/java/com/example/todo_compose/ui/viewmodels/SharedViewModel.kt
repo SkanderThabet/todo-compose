@@ -139,7 +139,7 @@ class SharedViewModel @Inject constructor(
                 deleteTask()
             }
             Action.DELETE_ALL -> {
-
+                deleteAllTasks()
             }
             Action.UNDO -> {
                 addTask()
@@ -150,6 +150,12 @@ class SharedViewModel @Inject constructor(
 
         }
         this.action.value = Action.NO_ACTION
+    }
+
+    private fun deleteAllTasks() {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteAllTasks()
+        }
     }
 
     fun updateAppBarState(newState: SearchAppBarState) {
