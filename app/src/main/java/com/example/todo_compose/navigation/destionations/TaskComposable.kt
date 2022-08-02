@@ -1,6 +1,5 @@
 package com.example.todo_compose.navigation.destionations
 
-import android.util.Log
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -25,8 +24,9 @@ fun NavGraphBuilder.taskComposable(
         })
     ) { navBackStackEntry ->
         val taskId = navBackStackEntry.arguments!!.getInt(TASK_ARGUMENTS_KEY)
-        Log.d("TaskComposable", taskId.toString())
-        sharedViewModel.getSelectedTask(taskId = taskId)
+        LaunchedEffect(key1 = taskId) {
+            sharedViewModel.getSelectedTask(taskId = taskId)
+        }
         val selectedTask by sharedViewModel.selectedTask.collectAsState()
 
         LaunchedEffect(key1 = selectedTask) {
