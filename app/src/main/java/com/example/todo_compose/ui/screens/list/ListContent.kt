@@ -26,23 +26,58 @@ import com.example.todo_compose.util.SearchAppBarState
 @Composable
 fun ListContent(
     allTasks: RequestState<List<ToDoTask>>,
+    lowPriorityTasks: List<ToDoTask>,
+    mediumPriorityTasks: List<ToDoTask>,
+    highPriorityTasks: List<ToDoTask>,
+    sortState: RequestState<Priority>,
     searchedTasks: RequestState<List<ToDoTask>>,
     searchAppBarState: SearchAppBarState,
     navigateToTaskScreen: (taskId: Int) -> Unit
 ) {
-    if (searchAppBarState == SearchAppBarState.TRIGGERED) {
-        if (searchedTasks is RequestState.Success) {
-            HandleListContent(
-                tasks = searchedTasks.data,
-                navigateToTaskScreen = navigateToTaskScreen
-            )
-        }
-    } else {
-        if (allTasks is RequestState.Success) {
-            HandleListContent(
-                tasks = allTasks.data,
-                navigateToTaskScreen = navigateToTaskScreen
-            )
+    if (sortState is RequestState.Success) {
+        when {
+            searchAppBarState == SearchAppBarState.TRIGGERED -> {
+                if (searchAppBarState == SearchAppBarState.TRIGGERED) {
+                    if (searchedTasks is RequestState.Success) {
+                        HandleListContent(
+                            tasks = searchedTasks.data,
+                            navigateToTaskScreen = navigateToTaskScreen
+                        )
+                    }
+                }
+            }
+            sortState.data == Priority.NONE -> {
+                if (allTasks is RequestState.Success) {
+                    HandleListContent(
+                        tasks = allTasks.data,
+                        navigateToTaskScreen = navigateToTaskScreen
+                    )
+                }
+            }
+            sortState.data == Priority.LOW -> {
+                if (allTasks is RequestState.Success) {
+                    HandleListContent(
+                        tasks = lowPriorityTasks,
+                        navigateToTaskScreen = navigateToTaskScreen
+                    )
+                }
+            }
+            sortState.data == Priority.MEDIUM -> {
+                if (allTasks is RequestState.Success) {
+                    HandleListContent(
+                        tasks = mediumPriorityTasks,
+                        navigateToTaskScreen = navigateToTaskScreen
+                    )
+                }
+            }
+            sortState.data == Priority.HIGH -> {
+                if (allTasks is RequestState.Success) {
+                    HandleListContent(
+                        tasks = highPriorityTasks,
+                        navigateToTaskScreen = navigateToTaskScreen
+                    )
+                }
+            }
         }
     }
 }
