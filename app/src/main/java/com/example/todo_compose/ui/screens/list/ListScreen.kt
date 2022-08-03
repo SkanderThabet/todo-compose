@@ -19,8 +19,9 @@ import kotlinx.coroutines.launch
 @Composable
 fun ListScreen(
     navigateToTaskScreen: (taskId: Int) -> Unit,
-    sharedViewModel: SharedViewModel
-) {
+    sharedViewModel: SharedViewModel,
+
+    ) {
     LaunchedEffect(key1 = true) {
         sharedViewModel.getAllTasks()
         sharedViewModel.readSortState()
@@ -63,7 +64,12 @@ fun ListScreen(
                 sortState = sortState,
                 searchedTasks = searchedTasks,
                 searchAppBarState = searchAppBarState,
-                navigateToTaskScreen = navigateToTaskScreen
+                navigateToTaskScreen = navigateToTaskScreen,
+                onSwipeToDelete = { action, task ->
+                    sharedViewModel.action.value = action
+                    sharedViewModel.updateTaskFields(selectedTasks = task)
+
+                }
             )
         },
         floatingActionButton = {

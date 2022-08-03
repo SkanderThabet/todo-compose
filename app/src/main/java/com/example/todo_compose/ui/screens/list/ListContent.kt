@@ -1,24 +1,31 @@
 package com.example.todo_compose.ui.screens.list
 
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.todo_compose.R
 import com.example.todo_compose.data.models.Priority
 import com.example.todo_compose.data.models.ToDoTask
 import com.example.todo_compose.ui.theme.*
+import com.example.todo_compose.util.Action
 import com.example.todo_compose.util.RequestState
 import com.example.todo_compose.util.SearchAppBarState
 
@@ -32,7 +39,8 @@ fun ListContent(
     sortState: RequestState<Priority>,
     searchedTasks: RequestState<List<ToDoTask>>,
     searchAppBarState: SearchAppBarState,
-    navigateToTaskScreen: (taskId: Int) -> Unit
+    navigateToTaskScreen: (taskId: Int) -> Unit,
+    onSwipeToDelete: (Action, ToDoTask) -> Unit
 ) {
     if (sortState is RequestState.Success) {
         when {
@@ -41,6 +49,7 @@ fun ListContent(
                     if (searchedTasks is RequestState.Success) {
                         HandleListContent(
                             tasks = searchedTasks.data,
+                            onSwipeToDelete = onSwipeToDelete,
                             navigateToTaskScreen = navigateToTaskScreen
                         )
                     }
@@ -50,6 +59,7 @@ fun ListContent(
                 if (allTasks is RequestState.Success) {
                     HandleListContent(
                         tasks = allTasks.data,
+                        onSwipeToDelete = onSwipeToDelete,
                         navigateToTaskScreen = navigateToTaskScreen
                     )
                 }
@@ -58,6 +68,7 @@ fun ListContent(
                 if (allTasks is RequestState.Success) {
                     HandleListContent(
                         tasks = lowPriorityTasks,
+                        onSwipeToDelete = onSwipeToDelete,
                         navigateToTaskScreen = navigateToTaskScreen
                     )
                 }
@@ -66,6 +77,7 @@ fun ListContent(
                 if (allTasks is RequestState.Success) {
                     HandleListContent(
                         tasks = mediumPriorityTasks,
+                        onSwipeToDelete = onSwipeToDelete,
                         navigateToTaskScreen = navigateToTaskScreen
                     )
                 }
@@ -74,6 +86,7 @@ fun ListContent(
                 if (allTasks is RequestState.Success) {
                     HandleListContent(
                         tasks = highPriorityTasks,
+                        onSwipeToDelete = onSwipeToDelete,
                         navigateToTaskScreen = navigateToTaskScreen
                     )
                 }
@@ -87,6 +100,7 @@ fun ListContent(
 @Composable
 fun HandleListContent(
     tasks: List<ToDoTask>,
+    onSwipeToDelete: (Action, ToDoTask) -> Unit,
     navigateToTaskScreen: (taskId: Int) -> Unit
 ) {
     if (tasks.isEmpty()) {
@@ -94,14 +108,17 @@ fun HandleListContent(
     } else {
         DisplayContent(
             tasks = tasks,
+            onSwipeToDelete = onSwipeToDelete,
             navigateToTaskScreen = navigateToTaskScreen
         )
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun DisplayContent(
     tasks: List<ToDoTask>,
+    onSwipeToDelete: (Action, ToDoTask) -> Unit,
     navigateToTaskScreen: (taskId: Int) -> Unit
 ) {
     LazyColumn {
@@ -111,9 +128,28 @@ fun DisplayContent(
                 task.id
             }
         ) { task ->
-            TaskItem(
-                toDoTask = task,
-                navigateToTaskScreen = navigateToTaskScreen
+            val dismissState = rememberDismissState()
+            val dismissDirection = dismissState.dismissDirection
+            val isDismissed = dismissState.isDismissed(DismissDirection.EndToStart)
+            if (isDismissed && dismissDirection == DismissDirection.EndToStart) {
+                onSwipeToDelete(Action.DELETE, task)
+            }
+            
+            val degress by animateFloatAsState(
+                targetValue = if (dismissState.targetValue == DismissValue.Default) 0f else -45f
+            )
+
+            SwipeToDismiss(
+                state = dismissState,
+                directions = setOf(DismissDirection.EndToStart),
+                dismissThresholds = { FractionalThreshold(fraction = 0.2f) },
+                background = { RedBackground(degress = degress) },
+                dismissContent = {
+                    TaskItem(
+                        toDoTask = task,
+                        navigateToTaskScreen = navigateToTaskScreen
+                    )
+                }
             )
 
         }
@@ -121,9 +157,26 @@ fun DisplayContent(
 
 }
 
+@Composable
+fun RedBackground(degress: Float) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = HighPriorityColor)
+            .padding(horizontal = LARGEST_PADDING),
+        contentAlignment = Alignment.CenterEnd
+    ) {
+        Icon(
+            modifier = Modifier.rotate(degrees = degress),
+            imageVector = Icons.Filled.Delete,
+            contentDescription = stringResource(R.string.swipe_button_delete),
+            tint = Color.White
+        )
+    }
+}
+
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-
 fun TaskItem(
     toDoTask: ToDoTask,
     navigateToTaskScreen: (taskId: Int) -> Unit
