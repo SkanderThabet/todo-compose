@@ -29,9 +29,13 @@ Simple task management Android application that allows you to prioritize your ta
 
 
   ![Google-Pixel-4-XL-Presentation](https://user-images.githubusercontent.com/78706653/182658625-b20a5fd9-7264-4e21-baa5-673e8f2efc51.png)
+
 <p align="center">
-Check demo here : (https://i.imgur.com/ME2oRdE.mp4)
+Check demo Below : 
 </p>
+
+https://user-images.githubusercontent.com/78706653/182682408-f6d18745-e853-407f-9e87-97833a7d41f0.mp4
+
 
 ## Features
 
