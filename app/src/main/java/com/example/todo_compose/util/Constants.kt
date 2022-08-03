@@ -6,6 +6,9 @@ object Constants {
     const val TASK_SCREEN = "task/{taskId}"
     const val LIST_SCREEN = "list/{action}"
 
+    const val SPLASH_SCREEN = "splash"
+    const val SPLASH_SCREEN_DELAY = 3000L
+
     const val LIST_ARGUMENTS_KEY = "action"
     const val TASK_ARGUMENTS_KEY = "taskId"
 
@@ -13,5 +16,6 @@ object Constants {
 
     const val PREFERENCE_NAME = "todo_preference"
     const val PREFERENCE_KEY = "sort_state"
+
 
 }
