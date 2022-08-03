@@ -144,9 +144,7 @@ fun DisplayContent(
                         onSwipeToDelete(Action.DELETE, task)
                     }
                 }
-
             }
-
             val degress by animateFloatAsState(
                 targetValue = if (dismissState.targetValue == DismissValue.Default) 0f else -45f
             )
