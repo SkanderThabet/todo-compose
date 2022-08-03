@@ -18,34 +18,32 @@ import kotlinx.coroutines.launch
 @ExperimentalMaterialApi
 @Composable
 fun ListScreen(
+    action: Action,
     navigateToTaskScreen: (taskId: Int) -> Unit,
     sharedViewModel: SharedViewModel,
-
-    ) {
-    LaunchedEffect(key1 = true) {
-        sharedViewModel.getAllTasks()
-        sharedViewModel.readSortState()
+) {
+    LaunchedEffect(key1 = action) {
+        sharedViewModel.handleDatabaseActions(action = action)
     }
+
     val allTasks by sharedViewModel.allTasks.collectAsState()
     val searchedTasks by sharedViewModel.searchedTasks.collectAsState()
     val sortState by sharedViewModel.sortState.collectAsState()
     val lowPriorityTasks by sharedViewModel.lowPriorityTasks.collectAsState()
-    val mediumPriorityTasks by sharedViewModel.mediumPriorityTasks.collectAsState()
     val highPriorityTasks by sharedViewModel.highPriorityTasks.collectAsState()
-    val action by sharedViewModel.action
+
     val searchAppBarState: SearchAppBarState = sharedViewModel.searchAppBarState
     val searchTextState: String = sharedViewModel.searchTextState
     val scaffoldState = rememberScaffoldState()
 
     DisplaySnackBack(
         scaffoldState = scaffoldState,
-        handleDatabaseActions = { sharedViewModel.handleDatabaseActions(action = action) },
-        onUndoClicked = {
-            sharedViewModel.action.value = it
-        },
-        taskTitle = sharedViewModel.title.value,
+        onComplete = { sharedViewModel.updateAction(newAction = it) },
+        onUndoClicked = { sharedViewModel.updateAction(newAction = it) },
+        taskTitle = sharedViewModel.title,
         action = action
     )
+
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
@@ -58,18 +56,17 @@ fun ListScreen(
         content = {
             ListContent(
                 allTasks = allTasks,
+                searchedTasks = searchedTasks,
                 lowPriorityTasks = lowPriorityTasks,
-                mediumPriorityTasks = mediumPriorityTasks,
                 highPriorityTasks = highPriorityTasks,
                 sortState = sortState,
-                searchedTasks = searchedTasks,
                 searchAppBarState = searchAppBarState,
-                navigateToTaskScreen = navigateToTaskScreen,
                 onSwipeToDelete = { action, task ->
-                    sharedViewModel.action.value = action
-                    sharedViewModel.updateTaskFields(selectedTasks = task)
-
-                }
+                    sharedViewModel.updateAction(newAction = action)
+                    sharedViewModel.updateTaskFields(selectedTask = task)
+                    scaffoldState.snackbarHostState.currentSnackbarData?.dismiss()
+                },
+                navigateToTaskScreen = navigateToTaskScreen
             )
         },
         floatingActionButton = {
@@ -100,27 +97,26 @@ fun ListFab(
 @Composable
 fun DisplaySnackBack(
     scaffoldState: ScaffoldState,
-    handleDatabaseActions: () -> Unit,
+    onComplete: (Action) -> Unit,
     onUndoClicked: (Action) -> Unit,
     taskTitle: String,
     action: Action
 ) {
-    handleDatabaseActions()
     val scope = rememberCoroutineScope()
     LaunchedEffect(key1 = action) {
         if (action != Action.NO_ACTION) {
             scope.launch {
                 val snackBarResult = scaffoldState.snackbarHostState.showSnackbar(
-                    message = setMessage(action, taskTitle),
-                    actionLabel = setActionLabel(action)
+                    message = setMessage(action = action, taskTitle = taskTitle),
+                    actionLabel = setActionLabel(action = action)
                 )
                 undoDeletedTask(
                     action = action,
                     snackBarResult = snackBarResult,
                     onUndoClicked = onUndoClicked
                 )
-
             }
+            onComplete(Action.NO_ACTION)
         }
     }
 
@@ -149,8 +145,9 @@ private fun undoDeletedTask(
     snackBarResult: SnackbarResult,
     onUndoClicked: (Action) -> Unit
 ) {
-    if (snackBarResult == SnackbarResult.ActionPerformed && action == Action.DELETE) {
+    if (snackBarResult == SnackbarResult.ActionPerformed
+        && action == Action.DELETE
+    ) {
         onUndoClicked(Action.UNDO)
     }
-
 }

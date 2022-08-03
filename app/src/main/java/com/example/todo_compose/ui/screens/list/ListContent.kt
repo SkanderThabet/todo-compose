@@ -39,7 +39,6 @@ import kotlinx.coroutines.launch
 fun ListContent(
     allTasks: RequestState<List<ToDoTask>>,
     lowPriorityTasks: List<ToDoTask>,
-    mediumPriorityTasks: List<ToDoTask>,
     highPriorityTasks: List<ToDoTask>,
     sortState: RequestState<Priority>,
     searchedTasks: RequestState<List<ToDoTask>>,
@@ -73,15 +72,6 @@ fun ListContent(
                 if (allTasks is RequestState.Success) {
                     HandleListContent(
                         tasks = lowPriorityTasks,
-                        onSwipeToDelete = onSwipeToDelete,
-                        navigateToTaskScreen = navigateToTaskScreen
-                    )
-                }
-            }
-            sortState.data == Priority.MEDIUM -> {
-                if (allTasks is RequestState.Success) {
-                    HandleListContent(
-                        tasks = mediumPriorityTasks,
                         onSwipeToDelete = onSwipeToDelete,
                         navigateToTaskScreen = navigateToTaskScreen
                     )

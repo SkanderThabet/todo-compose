@@ -18,6 +18,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.todo_compose.R
 import com.example.todo_compose.ui.theme.LOGO_HEIGHT
@@ -48,6 +49,12 @@ fun SplashScreen(
         delay(SPLASH_SCREEN_DELAY)
         navigateToListScreen()
     }
+
+    Splash(offsetState, alphaState)
+}
+
+@Composable
+fun Splash(offsetState: Dp, alphaState: Float) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -63,8 +70,6 @@ fun SplashScreen(
             contentDescription = stringResource(R.string.splash_screen_logo)
         )
     }
-
-
 }
 
 @Composable

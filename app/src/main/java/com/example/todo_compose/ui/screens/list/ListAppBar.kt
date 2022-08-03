@@ -42,9 +42,9 @@ fun ListAppBar(
                         newState = SearchAppBarState.OPENED
                     )
                 },
-                onSortClicked = { sharedViewModel.persistSortState(priority = it) },
+                onSortClicked = { sharedViewModel.persistSortState(it) },
                 onDeleteAllClicked = {
-                    sharedViewModel.action.value = Action.DELETE_ALL
+                    sharedViewModel.updateAction(newAction = Action.DELETE_ALL)
                 }
             )
         }
@@ -150,42 +150,17 @@ fun SortAction(
             expanded = expanded,
             onDismissRequest = { expanded = false }
         ) {
-            DropdownMenuItem(
-                onClick = {
-                    expanded = false
-                    onSortClicked(Priority.LOW)
-                })
-            {
-                PriorityItem(priority = Priority.LOW)
+            Priority.values().slice(setOf(0, 2, 3)).forEach { priority ->
+                DropdownMenuItem(
+                    onClick = {
+                        expanded = false
+                        onSortClicked(priority)
+                    }
+                ) {
+                    PriorityItem(priority = priority)
+                }
             }
-            DropdownMenuItem(
-                onClick = {
-                    expanded = false
-                    onSortClicked(Priority.MEDIUM)
-                })
-            {
-                PriorityItem(priority = Priority.MEDIUM)
-            }
-            DropdownMenuItem(
-                onClick = {
-                    expanded = false
-                    onSortClicked(Priority.HIGH)
-                })
-            {
-                PriorityItem(priority = Priority.HIGH)
-            }
-            DropdownMenuItem(
-                onClick = {
-                    expanded = false
-                    onSortClicked(Priority.NONE)
-                },
 
-
-                )
-
-            {
-                PriorityItem(priority = Priority.NONE)
-            }
         }
 
     }
