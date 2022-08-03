@@ -18,12 +18,8 @@
 
 - [Introduction](#introduction)
 - [Features](#features)
-- [Feedback](#feedback)
-- [Contributors](#contributors)
-- [Build Process](#build-process)
-- [Backers](#backers-)
-- [Sponsors](#sponsors-)
-- [Acknowledgments](#acknowledgments)
+- [Libraries](#libraries)
+
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -51,7 +47,7 @@ A few of the things you can do with To-Do App:
 * Swipe Delete Task
 
 
-## Major Libraries and Patterns 
+## Libraries
 
 * Jetpack Compose
 * ROOM Database
