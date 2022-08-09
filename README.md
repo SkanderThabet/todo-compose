@@ -12,6 +12,17 @@
   Built with Jetpack Compose.
 </p>
 
+<p align="center">
+  <a href="https://appgallery.huawei.com/app/C106822747?sharePrepath=ag&channelId=Tools&id=94ccec27f6704f8eba21d698826bbfc0&s=D5A49719A72147A6844635FFF80BE0277D936240EA4E3F286466951D0C8FE6FC&detailType=0&v=&callType=AGDLINK&installType=0000">
+    <img alt="Download on the AppGallery Store" title="AppGallery" src="https://i.imgur.com/hDfphnM.png" width="300">
+  </a>
+  
+* QR CODE : 
+
+<p align="center">
+    <img alt="App QR CODE" title="AppGallery APP QR CODE" src="https://i.imgur.com/uKmkKlg.png?1" width="300">
+  </a>
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 ## Table of Contents
